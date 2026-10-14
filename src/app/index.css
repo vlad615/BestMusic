@@ -1,0 +1,72 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@theme {
+  --font-sans: 'Inter', sans-serif;
+  --spacing: 10px;
+
+  --color-background: var(--background);
+  --color-background-menu: var(--background-menu);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+
+  --color-text: var(--text);
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+}
+
+:root {
+  --background: #fafafa;
+  --background-menu: #f7f7fa;
+  --surface: #ffffff;
+  --border: #e5e7eb;
+
+  --text: #111827;
+  --text-primary: #7430e9;
+  --text-secondary: #6b7280;
+
+  --primary: #7430e9;
+  --primary-hover: #6c28d95b;
+  --primary-light: #bc9df344;
+
+  --shadow-sm: 0 1px 3px rgb(15 23 42 / 0.08);
+  --shadow-md: 0 4px 12px rgb(15 23 42 / 0.08);
+  --shadow-lg: 0 8px 24px rgb(15 23 42 / 0.12);
+}
+
+.dark {
+  --background: #0f172a;
+  --background-menu: #1d273f;
+  --surface: #222f46;
+  --border: rgb(57, 81, 112);
+
+  --text: #f8fafc;
+  --text-primary: #8b5cf6;
+  --text-secondary: #7d92b3;
+
+  --primary: #8b5cf6;
+  --primary-hover: #312e81;
+  --primary-light: #2a204d77;
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.12);
+  --shadow-md: 0 4px 12px rgb(0 0 0 / 0.15);
+  --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.2);
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans font-normal min-w-sm;
+  }
+}
+
+@utility container {
+  padding-top: 15px;
+  width: 100%;
+}
