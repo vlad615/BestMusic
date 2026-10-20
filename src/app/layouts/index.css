@@ -1,5 +1,5 @@
 @import 'tailwindcss';
-@import 'tw-animate-css';
+/* @import 'tw-animate-css'; */
 
 @theme {
   --font-sans: 'Inter', sans-serif;
@@ -22,7 +22,7 @@
   --shadow-lg: var(--shadow-lg);
 }
 
-:root {
+.dark {
   --background: #fafafa;
   --background-menu: #f7f7fa;
   --surface: #ffffff;
@@ -41,7 +41,7 @@
   --shadow-lg: 0 8px 24px rgb(15 23 42 / 0.12);
 }
 
-.dark {
+:root {
   --background: #0f172a;
   --background-menu: #1d273f;
   --surface: #222f46;
@@ -62,7 +62,7 @@
 
 @layer base {
   body {
-    @apply bg-background text-text font-sans font-normal min-w-sm;
+    @apply bg-background text-text text-xl font-sans font-normal min-w-sm;
   }
 }
 

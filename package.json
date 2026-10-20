@@ -17,6 +17,7 @@
     "openapi-fetch": "^0.17.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
+    "react-hook-form": "^7.90.0",
     "tailwindcss": "^4.3.3",
     "zustand": "^5.0.15"
   },
@@ -26,6 +27,7 @@
     "@rolldown/plugin-babel": "^0.2.3",
     "@tanstack/eslint-plugin-query": "^5.104.2",
     "@tanstack/react-query-devtools": "^5.104.3",
+    "@tanstack/router-plugin": "^1.168.46",
     "@types/babel__core": "^7.20.5",
     "@types/node": "^24.13.3",
     "@types/react": "^19.2.18",
