@@ -64,6 +64,9 @@
   body {
     @apply bg-background text-text text-xl font-sans font-normal min-w-sm;
   }
+  button {
+    @apply cursor-pointer;
+  }
 }
 
 @utility container {

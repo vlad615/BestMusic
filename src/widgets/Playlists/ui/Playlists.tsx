@@ -10,15 +10,15 @@ type Props = {
 }
 
 export const Playlists = ({ userId, onPlaylistSelected }: Props) => {
-  const [page, setPage] = useState(1)
+  const [pageNumber, setPageNumber] = useState(1)
   const [search, setSearch] = useState('')
 
   const query = useQuery({
-    queryKey: ['playlists', { page, search, userId }],
+    queryKey: ['playlists', { pageNumber, search, userId }],
     queryFn: async ({ signal }) => {
       const responce = await client.GET('/playlists', {
         params: {
-          query: { pageNumber: page, search, userId },
+          query: { pageNumber, search, userId },
         },
         signal,
       })
@@ -34,7 +34,7 @@ export const Playlists = ({ userId, onPlaylistSelected }: Props) => {
   if (query.isError) return <span>{JSON.stringify(query.error.message)}</span>
 
   return (
-    <section className='mb-10'>
+    <section className="mb-10">
       <input
         className="w-full max-w-md rounded-md border border-border bg-surface px-1.5 py-0.5 mb-2 text-text placeholder:text-text-secondary outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30"
         value={search}
@@ -44,15 +44,11 @@ export const Playlists = ({ userId, onPlaylistSelected }: Props) => {
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {query.data?.data.map((i) => (
-          <CardPlaylist key={i.id} playlist={i} userId={userId} onUpdate={onPlaylistSelected} />
+          <CardPlaylist key={i.id} playlist={i} onUpdate={onPlaylistSelected} />
         ))}
       </div>
 
-      <Pagination
-        pagesCount={query.data.meta.pagesCount}
-        currentPage={page}
-        onPageNumberChange={setPage}
-      />
+      <Pagination pagesCount={query.data.meta.pagesCount} currentPage={pageNumber} onPageNumberChange={setPageNumber} />
     </section>
   )
 }

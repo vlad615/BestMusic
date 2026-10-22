@@ -16,15 +16,15 @@ export function MyPlaylistsPage() {
 
   return (
     <>
-      <div className='flex gap-2 flex-wrap items-center justify-between'>
+      <div className="flex gap-2 flex-wrap items-center justify-between">
         <h1 className="font-semibold text-[clamp(1.5rem,4vw,2.5rem)] mb-2">This is your playlists</h1>
         <AddPlaylistBtn />
       </div>
 
-
       <Playlists userId={data.userId} onPlaylistSelected={setEditingPlaylistId} />
-      {editingPlaylistId &&
-        <UpdatePlaylistForm playlistId={editingPlaylistId} onCancel={() => setEditingPlaylistId(null)} />}
+      {editingPlaylistId && (
+        <UpdatePlaylistForm playlistId={editingPlaylistId} onCancel={() => setEditingPlaylistId(null)} />
+      )}
     </>
   )
 }
