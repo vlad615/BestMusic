@@ -5,9 +5,9 @@ export const useAddPlaylistMutation = () => {
   const queryClient = useQueryClient()
 
   return useMutation({
-    mutationFn: async (data: SchemaCreatePlaylistRequestPayload) => {
+    mutationFn: async ({ data }: SchemaCreatePlaylistRequestPayload) => {
       const response = await client.POST('/playlists', {
-        body: data,
+        body: { data: { type: 'playlists', attributes: data.attributes } },
       })
 
       if (response.error) {
@@ -22,7 +22,7 @@ export const useAddPlaylistMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: playlistsKeys.lists(),
+        queryKey: ['playlists'],
         refetchType: 'all',
       })
     },

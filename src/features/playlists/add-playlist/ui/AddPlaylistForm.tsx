@@ -1,8 +1,12 @@
 import type { SchemaCreatePlaylistRequestPayload } from '@/shared/api/schema'
 import { useForm } from 'react-hook-form'
-import { useAddPlaylistMutation } from '../api/use-addplaylist-mutation'
+import { useAddPlaylistMutation } from '../api/use-add-mutation'
 
-export const AddPlaylistForm = () => {
+type Props = {
+  onClose: () => void
+}
+
+export const AddPlaylistForm = ({ onClose }: Props) => {
   const {
     register,
     handleSubmit,
@@ -17,6 +21,7 @@ export const AddPlaylistForm = () => {
     try {
       await mutateAsync(data)
       reset()
+      onClose()
     } catch (error) {
       setError('root.server', {
         type: 'server',
@@ -27,14 +32,26 @@ export const AddPlaylistForm = () => {
 
   return (
     <form
-      className="w-full max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
+      className="absolute z-50 top-1/2 left-1/2 -translate-1/2 max-h-max w-11/12 max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
       onSubmit={handleSubmit(onSubmit)}>
-      <h2 className="text-2xl font-semibold text-text">Add New Playlist</h2>
+      <div className='flex items-center justify-between'>
+        <h2 className="text-2xl font-semibold text-text">Add New Playlist</h2>
+        <button
+          className="flex size-4 cursor-pointer items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface hover:text-text focus-visible:outline-2 focus-visible:outline-primary"
+          type="button"
+          onClick={onClose}>
+          <svg aria-hidden="true" className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+
 
       <div className="space-y-1">
         <input
           className="w-full rounded-md border border-border bg-surface px-1.5 py-1 text-text placeholder:text-text-secondary outline-none transition-colors focus:border-primary focus:ring-2 focus:ring-primary/30"
           id="playlist-title"
+          autoFocus
           placeholder="Playlist title"
           {...register('data.attributes.title', {
             required: 'Enter a playlist title.',
@@ -72,7 +89,7 @@ export const AddPlaylistForm = () => {
       )}
 
       <button
-        className="rounded-md bg-primary px-1.5 py-1 font-semibold text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60"
+        className="cursor-pointer rounded-md bg-primary px-1.5 py-1 font-semibold text-white transition-colors hover:bg-primary-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60"
         disabled={isPending}
         type="submit">
         {isPending ? 'Creating...' : 'Create playlist'}

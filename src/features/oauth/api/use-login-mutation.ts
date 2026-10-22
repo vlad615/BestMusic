@@ -12,7 +12,7 @@ export const useLogin = () => {
           code: code,
           redirectUri: сallbackUrl,
           rememberMe: true,
-          accessTokenTTL: '5s',
+          accessTokenTTL: '5h',
         },
       })
 
