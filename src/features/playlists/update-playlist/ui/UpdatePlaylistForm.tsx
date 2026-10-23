@@ -18,19 +18,10 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
   } = useForm<SchemaUpdatePlaylistRequestPayload>()
 
   const { data, isPending, isError } = usePlaylistQuery(playlistId)
-  const { mutateAsync } = useUpdatePlaylistMutation()
+  const { mutate } = useUpdatePlaylistMutation({ onSuccess: onCancel })
 
   const onSubmit = async (data: SchemaUpdatePlaylistRequestPayload) => {
-    try {
-      await mutateAsync({ playlistId, ...data })
-      reset()
-      onCancel()
-    } catch (error) {
-      setError('root.server', {
-        type: 'server',
-        message: error instanceof Error ? error.message : 'Failed to create playlist.',
-      })
-    }
+    mutate({ playlistId, ...data })
   }
 
   if (isPending) return <></>

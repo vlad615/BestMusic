@@ -5,25 +5,17 @@ import { playlistsKeys } from '@/shared/api'
 
 type MutationVariables = SchemaUpdatePlaylistRequestPayload & { playlistId: string }
 
-export const useUpdatePlaylistMutation = (
-  // {
-  //   // onSuccess,
-  //   // onError,
-  // }: {
-  //   // onSuccess?: () => void
-  //   // onError?: (error: JsonApiErrorDocument) => void
-  // }
-) => {
+export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient()
 
-  const key = playlistsKeys.myList()
+  const key = ['playlists', 'my']
 
   return useMutation({
     mutationFn: async (variables: MutationVariables) => {
       const { playlistId, ...rest } = variables
       const response = await client.PUT('/playlists/{playlistId}', {
         params: { path: { playlistId: playlistId } },
-        body: { ...rest, tagIds: [] },
+        body: { data: { type: 'playlists', attributes: { ...rest.data.attributes, tagIds: [] } } },
       })
       return response.data
     },
@@ -36,6 +28,7 @@ export const useUpdatePlaylistMutation = (
       const previousMyPlaylists = queryClient.getQueryData(key)
       // Optimistically update to the new value
       queryClient.setQueryData(key, (oldData: SchemaGetPlaylistsOutput) => {
+        console.log('oldData', oldData)
         return {
           ...oldData,
           data: oldData.data.map((p) => {
@@ -61,19 +54,19 @@ export const useUpdatePlaylistMutation = (
     //   queryClient.setQueryData(key, context!.previousMyPlaylists)
     //   onError?.(error as unknown as JsonApiErrorDocument)
     // },
-    // onSuccess: () => {
-    //   onSuccess?.()
-    // },
+    onSuccess: () => {
+      onSuccess?.()
+    },
     // Always refetch after error or success:
     onSettled: (_, __, variables: MutationVariables) => {
       queryClient.invalidateQueries({
-        queryKey: playlistsKeys.lists(),
+        queryKey: playlistsKeys.all,
         refetchType: 'all',
       })
-      queryClient.invalidateQueries({
-        queryKey: playlistsKeys.detail(variables.playlistId),
-        refetchType: 'all',
-      })
+      // queryClient.invalidateQueries({
+      //   queryKey: playlistsKeys.detail(variables.playlistId),
+      //   refetchType: 'all',
+      // })
     },
   })
 }

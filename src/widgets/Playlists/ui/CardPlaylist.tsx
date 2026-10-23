@@ -13,6 +13,11 @@ export const CardPlaylist = ({ playlist, onUpdate }: Props) => {
     images.main?.find((image) => image.type === 'medium') ??
     images.main?.find((image) => image.type === 'original')
 
+  const handleUpdate = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    if (onUpdate) onUpdate(playlist.id)
+  }
+
   return (
     <article className="relative overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
       {cover ? (
@@ -38,7 +43,7 @@ export const CardPlaylist = ({ playlist, onUpdate }: Props) => {
             <DeletePlaylistBtn id={playlist.id} />
             <button
               className="whitespace-nowrap rounded px-1.5 py-0.5 text-sm text-red-500 hover:bg-surface focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60"
-              onClick={() => onUpdate(playlist.id)}>
+              onClick={handleUpdate}>
               Update
             </button>
           </div>
