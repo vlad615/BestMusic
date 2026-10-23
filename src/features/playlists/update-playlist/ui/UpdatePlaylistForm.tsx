@@ -1,7 +1,9 @@
-import type { SchemaCreatePlaylistRequestPayload, SchemaUpdatePlaylistRequestPayload } from '@/shared/api/schema'
+import { usePlaylistQuery } from '@/entities/playlists'
+import type { SchemaUpdatePlaylistRequestPayload } from '@/shared/api/schema'
 import { useForm } from 'react-hook-form'
 import { useUpdatePlaylistMutation } from '../api/use-update-mutation'
-import { usePlaylistQuery } from '@/entities/playlists'
+import { useClickOutside } from '@/shared/lib/hooks/useClickOutsede'
+import { useRef } from 'react'
 
 type Props = {
   playlistId: string
@@ -20,6 +22,9 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
   const { data, isPending, isError } = usePlaylistQuery(playlistId)
   const { mutate } = useUpdatePlaylistMutation({ onSuccess: onCancel })
 
+  const formRef = useRef<HTMLFormElement>(null)
+  useClickOutside(formRef, onCancel)
+
   const onSubmit = async (data: SchemaUpdatePlaylistRequestPayload) => {
     mutate({ playlistId, ...data })
   }
@@ -29,6 +34,7 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
 
   return (
     <form
+      ref={formRef}
       className="absolute z-50 top-1/2 left-1/2 -translate-1/2 max-h-max w-11/12 max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
       onSubmit={handleSubmit(onSubmit)}>
       <div className="flex items-center justify-between">

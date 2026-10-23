@@ -22,7 +22,7 @@ export const useAddPlaylistMutation = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['playlists'],
+        queryKey: playlistsKeys.myList(),
         refetchType: 'all',
       })
     },

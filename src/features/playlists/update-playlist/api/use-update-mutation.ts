@@ -8,7 +8,7 @@ type MutationVariables = SchemaUpdatePlaylistRequestPayload & { playlistId: stri
 export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => void }) => {
   const queryClient = useQueryClient()
 
-  const key = ['playlists', 'my']
+  const key = playlistsKeys.myList()
 
   return useMutation({
     mutationFn: async (variables: MutationVariables) => {
@@ -28,7 +28,6 @@ export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => voi
       const previousMyPlaylists = queryClient.getQueryData(key)
       // Optimistically update to the new value
       queryClient.setQueryData(key, (oldData: SchemaGetPlaylistsOutput) => {
-        console.log('oldData', oldData)
         return {
           ...oldData,
           data: oldData.data.map((p) => {
@@ -60,13 +59,13 @@ export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => voi
     // Always refetch after error or success:
     onSettled: (_, __, variables: MutationVariables) => {
       queryClient.invalidateQueries({
-        queryKey: playlistsKeys.all,
+        queryKey: playlistsKeys.lists(),
         refetchType: 'all',
       })
-      // queryClient.invalidateQueries({
-      //   queryKey: playlistsKeys.detail(variables.playlistId),
-      //   refetchType: 'all',
-      // })
+      queryClient.invalidateQueries({
+        queryKey: playlistsKeys.detail(variables.playlistId),
+        refetchType: 'all',
+      })
     },
   })
 }

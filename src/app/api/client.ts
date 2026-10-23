@@ -5,10 +5,10 @@ export const queryClient = new QueryClient({
     queries: {
       retry: 0,
       staleTime: Infinity,
-      refetchOnMount: false,
+      refetchOnMount: true,
       refetchOnWindowFocus: false,
       refetchOnReconnect: false,
-      gcTime: 5 * 1000,
+      // gcTime: 5 * 1000,
     },
   },
 })

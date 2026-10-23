@@ -1,4 +1,4 @@
-import { client, type SchemaGetPlaylistsOutput } from '@/shared/api'
+import { client, playlistsKeys, type SchemaGetPlaylistsOutput } from '@/shared/api'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 export const useDeleteMutation = () => {
@@ -6,13 +6,12 @@ export const useDeleteMutation = () => {
 
   return useMutation({
     mutationFn: async (playlistId: string) => {
-      // return { ok: true }
       const response = await client.DELETE('/playlists/{playlistId}', { params: { path: { playlistId } } })
 
       return response.data
     },
     onSuccess: (data, playlistId: string) => {
-      queryClient.setQueriesData({ queryKey: ['playlists'] }, (oldData: SchemaGetPlaylistsOutput) => {
+      queryClient.setQueriesData({ queryKey: playlistsKeys.myList() }, (oldData: SchemaGetPlaylistsOutput) => {
         console.log(oldData)
 
         return {
