@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 export function MyPlaylistsPage() {
   const [editingPlaylistId, setEditingPlaylistId] = useState<string | null>(null)
-  const { data, isPending, isFetching } = useMeQuery()
+  const { data, isPending } = useMeQuery()
 
   if (isPending) return <div>Loading...</div>
 

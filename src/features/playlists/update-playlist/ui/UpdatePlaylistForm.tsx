@@ -14,8 +14,6 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
   const {
     register,
     handleSubmit,
-    reset,
-    setError,
     formState: { errors },
   } = useForm<SchemaUpdatePlaylistRequestPayload>()
 
