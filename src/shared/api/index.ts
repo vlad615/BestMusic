@@ -1,3 +1,5 @@
 export { client } from './client'
 export { playlistsKeys } from './keys-factories/playlists-key-factory'
 export * from './schema'
+export { type JsonApiErrorDocument } from './errors/isErrorWithMessage'
+export { queryErrorHandlerForRHFFactory } from './errors/handleError'

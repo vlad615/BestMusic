@@ -1,11 +1,16 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import type { SchemaGetPlaylistsOutput, SchemaUpdatePlaylistRequestPayload } from '@/shared/api'
+import type { JsonApiErrorDocument, SchemaGetPlaylistsOutput, SchemaUpdatePlaylistRequestPayload } from '@/shared/api'
 import { client } from '@/shared/api'
 import { playlistsKeys } from '@/shared/api'
 
 type MutationVariables = SchemaUpdatePlaylistRequestPayload & { playlistId: string }
 
-export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => void }) => {
+export const useUpdatePlaylistMutation = ({
+  onSuccess,
+}: {
+  onSuccess?: () => void
+  onError?: (error: JsonApiErrorDocument) => void
+}) => {
   const queryClient = useQueryClient()
 
   const key = playlistsKeys.myList()
@@ -49,10 +54,10 @@ export const useUpdatePlaylistMutation = ({ onSuccess }: { onSuccess?: () => voi
       return { previousMyPlaylists }
     },
     // If the mutation fails, use the context we returned above
-    // onError: (error, __: MutationVariables, context) => {
-    //   queryClient.setQueryData(key, context!.previousMyPlaylists)
-    //   onError?.(error as unknown as JsonApiErrorDocument)
-    // },
+    onError: (error, __: MutationVariables, context) => {
+      queryClient.setQueryData(key, context!.previousMyPlaylists)
+      // onError?.(error as unknown as JsonApiErrorDocument)
+    },
     onSuccess: () => {
       onSuccess?.()
     },

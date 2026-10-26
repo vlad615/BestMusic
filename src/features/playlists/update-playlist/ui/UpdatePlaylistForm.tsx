@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import { useUpdatePlaylistMutation } from '../api/use-update-mutation'
 import { useClickOutside } from '@/shared/lib/hooks/useClickOutsede'
 import { useRef } from 'react'
+import { queryErrorHandlerForRHFFactory } from '@/shared/api'
 
 type Props = {
   playlistId: string
@@ -14,11 +15,15 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<SchemaUpdatePlaylistRequestPayload>()
 
   const { data, isPending, isError } = usePlaylistQuery(playlistId)
-  const { mutate } = useUpdatePlaylistMutation({ onSuccess: onCancel })
+  const { mutate } = useUpdatePlaylistMutation({
+    onSuccess: onCancel,
+    onError: queryErrorHandlerForRHFFactory({ setError }),
+  })
 
   const formRef = useRef<HTMLFormElement>(null)
   useClickOutside(formRef, onCancel)
