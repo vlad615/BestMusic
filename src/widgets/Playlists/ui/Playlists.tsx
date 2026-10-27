@@ -2,6 +2,7 @@ import { Pagination } from '@/shared/ui'
 import { useState, type ChangeEvent } from 'react'
 import { useQueryPlaylists } from '../api/use-query-playlists'
 import { CardPlaylist } from './CardPlaylist'
+import { useDebounce } from '@/shared/lib/'
 
 type Props = {
   userId?: string
@@ -13,7 +14,8 @@ export const Playlists = ({ userId, onPlaylistSelected, isSearchActive }: Props)
   const [pageNumber, setPageNumber] = useState(1)
   const [search, setSearch] = useState('')
 
-  const { data, isPending, isError, error } = useQueryPlaylists(userId, pageNumber, search)
+  const debouncedSearch = useDebounce(search, 700)
+  const { data, isPending, isError, error } = useQueryPlaylists(userId, pageNumber, debouncedSearch)
 
   if (isPending) return <span>Loading</span>
   if (isError) return <span>{JSON.stringify(error.message)}</span>
@@ -29,7 +31,7 @@ export const Playlists = ({ userId, onPlaylistSelected, isSearchActive }: Props)
         />
       )}
 
-      <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <div className="mb-2 grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {data?.data.map((i) => (
           <CardPlaylist key={i.id} playlist={i} onUpdate={onPlaylistSelected} />
         ))}

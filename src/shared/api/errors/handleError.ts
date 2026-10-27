@@ -16,10 +16,9 @@ export const queryErrorHandlerForRHFFactory = <T extends FieldValues>({
     // 400 от сервера в JSON:API формате
     if (isJsonApiErrorDocument(err)) {
       const { fieldErrors, globalErrors } = parseJsonApiErrors(err)
-
       // полевые ошибки
       for (const [field, message] of Object.entries(fieldErrors)) {
-        setError?.(field as Path<T>, { type: 'server', message })
+        setError?.(`data.attributes.${field}` as Path<T>, { type: 'server', message })
       }
 
       // «глобальные» (без pointer)

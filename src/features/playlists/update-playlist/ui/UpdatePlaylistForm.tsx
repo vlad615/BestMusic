@@ -38,7 +38,7 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
   return (
     <form
       ref={formRef}
-      className="absolute z-50 top-1/2 left-1/2 -translate-1/2 max-h-max w-11/12 max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
+      className="absolute z-50 top-1/2 left-1/2 -translate-1/2 max-h-9/12 w-11/12 max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
       onSubmit={handleSubmit(onSubmit)}>
       <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-text">Edit Playlist</h2>
@@ -67,12 +67,12 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
           defaultValue={data.data.attributes.title}
           {...register('data.attributes.title', {
             required: 'Enter a playlist title.',
-            maxLength: { value: 100, message: 'Title must be 100 characters or fewer.' },
-            validate: (value) => value.trim().length > 0 || 'Title cannot be blank.',
+            // maxLength: { value: 100, message: 'Title must be 100 characters or fewer.' },
+            // validate: (value) => value.trim().length > 0 || 'Title cannot be blank.',
           })}
         />
         {errors.data?.attributes?.title && (
-          <p className="text-sm text-red-400" id="playlist-title-error" role="alert">
+          <p className="text-sm text-red-400 line-clamp-2" id="playlist-title-error" role="alert">
             {errors.data.attributes.title.message}
           </p>
         )}
@@ -85,11 +85,11 @@ export const UpdatePlaylistForm = ({ playlistId, onCancel }: Props) => {
           placeholder="Describe your playlist (optional)"
           defaultValue={data.data.attributes.description || ''}
           {...register('data.attributes.description', {
-            maxLength: { value: 1000, message: 'Description must be 1000 characters or fewer.' },
+            // maxLength: { value: 1000, message: 'Description must be 1000 characters or fewer.' },
           })}
         />
         {errors.data?.attributes?.description && (
-          <p className="text-sm text-red-400" id="playlist-description-error" role="alert">
+          <p className="text-sm text-red-400 line-clamp-2" id="playlist-description-error" role="alert">
             {errors.data.attributes.description.message}
           </p>
         )}

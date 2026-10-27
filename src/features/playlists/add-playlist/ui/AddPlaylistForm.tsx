@@ -1,6 +1,7 @@
 import type { SchemaCreatePlaylistRequestPayload } from '@/shared/api/schema'
 import { useForm } from 'react-hook-form'
 import { useAddPlaylistMutation } from '../api/use-add-mutation'
+import { queryErrorHandlerForRHFFactory, type JsonApiErrorDocument } from '@/shared/api'
 
 type Props = {
   onClose: () => void
@@ -23,10 +24,7 @@ export const AddPlaylistForm = ({ onClose }: Props) => {
       reset()
       onClose()
     } catch (error) {
-      setError('root.server', {
-        type: 'server',
-        message: error instanceof Error ? error.message : 'Failed to create playlist.',
-      })
+      queryErrorHandlerForRHFFactory({ setError })(error as unknown as JsonApiErrorDocument)
     }
   }
 
@@ -34,18 +32,23 @@ export const AddPlaylistForm = ({ onClose }: Props) => {
     <form
       className="absolute z-50 top-1/2 left-1/2 -translate-1/2 max-h-max w-11/12 max-w-xl mb-2 space-y-2 rounded-lg border border-border bg-background-menu p-2 shadow-sm"
       onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex items-center justify-between'>
+      <div className="flex items-center justify-between">
         <h2 className="text-2xl font-semibold text-text">Add New Playlist</h2>
         <button
           className="flex size-4 cursor-pointer items-center justify-center rounded-md text-text-secondary transition-colors hover:bg-surface hover:text-text focus-visible:outline-2 focus-visible:outline-primary"
           type="button"
           onClick={onClose}>
-          <svg aria-hidden="true" className="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <svg
+            aria-hidden="true"
+            className="size-3"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2">
             <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
           </svg>
         </button>
       </div>
-
 
       <div className="space-y-1">
         <input
@@ -55,12 +58,12 @@ export const AddPlaylistForm = ({ onClose }: Props) => {
           placeholder="Playlist title"
           {...register('data.attributes.title', {
             required: 'Enter a playlist title.',
-            maxLength: { value: 100, message: 'Title must be 100 characters or fewer.' },
-            validate: (value) => value.trim().length > 0 || 'Title cannot be blank.',
+            // maxLength: { value: 100, message: 'Title must be 100 characters or fewer.' },
+            // validate: (value) => value.trim().length > 0 || 'Title cannot be blank.',
           })}
         />
         {errors.data?.attributes?.title && (
-          <p className="text-sm text-red-400" id="playlist-title-error" role="alert">
+          <p className="text-sm text-red-400 line-clamp-2" id="playlist-title-error" role="alert">
             {errors.data.attributes.title.message}
           </p>
         )}
@@ -72,18 +75,18 @@ export const AddPlaylistForm = ({ onClose }: Props) => {
           id="playlist-description"
           placeholder="Describe your playlist (optional)"
           {...register('data.attributes.description', {
-            maxLength: { value: 1000, message: 'Description must be 1000 characters or fewer.' },
+            // maxLength: { value: 1000, message: 'Description must be 1000 characters or fewer.' },
           })}
         />
         {errors.data?.attributes?.description && (
-          <p className="text-sm text-red-400" id="playlist-description-error" role="alert">
+          <p className="text-sm text-red-400 line-clamp-2" id="playlist-description-error" role="alert">
             {errors.data.attributes.description.message}
           </p>
         )}
       </div>
 
       {errors.root?.server && (
-        <p className="text-sm text-red-400" role="alert">
+        <p className="text-sm text-red-400 line-clamp-2" role="alert">
           {errors.root.server.message}
         </p>
       )}

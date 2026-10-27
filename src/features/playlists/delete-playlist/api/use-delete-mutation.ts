@@ -12,8 +12,6 @@ export const useDeleteMutation = () => {
     },
     onSuccess: (data, playlistId: string) => {
       queryClient.setQueriesData({ queryKey: playlistsKeys.myList() }, (oldData: SchemaGetPlaylistsOutput) => {
-        console.log(oldData)
-
         return {
           ...oldData,
           data: oldData.data.filter((p) => p.id !== playlistId),

@@ -8,7 +8,7 @@ type Props = {
 
 export const Pagination = ({ currentPage, pagesCount, onPageNumberChange: changePageNumber }: Props) => {
   return (
-    <div className="flex items-center content-center gap-4 mx-auto">
+    <div className="flex justify-center items-center content-center gap-4 mx-auto">
       <PaginationNav current={currentPage} pagesCount={pagesCount} onChange={changePageNumber} />
     </div>
   )
