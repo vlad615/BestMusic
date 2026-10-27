@@ -1,5 +1,5 @@
-import { MutationCache, QueryClient } from '@tanstack/react-query'
-import { mutationGlobalErrorHandler } from '@/shared/api/errors/handleError'
+import { MutationCache, QueryCache, QueryClient } from '@tanstack/react-query'
+import { mutationGlobalErrorHandler, queryErrorHandler } from '@/shared/api/errors/handleError'
 
 export type MutationMeta = {
   /**
@@ -17,6 +17,9 @@ declare module '@tanstack/react-query' {
   }
 }
 export const queryClient = new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) => queryErrorHandler(error),
+  }),
   mutationCache: new MutationCache({
     onError: mutationGlobalErrorHandler,
   }),

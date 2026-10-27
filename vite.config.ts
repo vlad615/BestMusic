@@ -12,6 +12,7 @@ export default defineConfig({
       target: 'react',
       routesDirectory: './src/app/routes',
       generatedRouteTree: './src/app/routes/routeTree.gen.ts',
+      routeFileIgnorePattern: 'routeTree\\.gen\\.ts$',
       autoCodeSplitting: true,
     }),
     react(),
@@ -20,7 +21,7 @@ export default defineConfig({
   ],
   resolve: {
     alias: {
-      '@/': `${path.resolve(__dirname, './src')}/`,
+      '@/': `${path.resolve(import.meta.dirname, './src')}/`,
     },
   },
 })

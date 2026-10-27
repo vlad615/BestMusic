@@ -7,6 +7,7 @@ type MutationVariables = SchemaUpdatePlaylistRequestPayload & { playlistId: stri
 
 export const useUpdatePlaylistMutation = ({
   onSuccess,
+  onError,
 }: {
   onSuccess?: () => void
   onError?: (error: JsonApiErrorDocument) => void
@@ -56,7 +57,7 @@ export const useUpdatePlaylistMutation = ({
     // If the mutation fails, use the context we returned above
     onError: (error, __: MutationVariables, context) => {
       queryClient.setQueryData(key, context!.previousMyPlaylists)
-      // onError?.(error as unknown as JsonApiErrorDocument)
+      onError?.(error as unknown as JsonApiErrorDocument)
     },
     onSuccess: () => {
       onSuccess?.()

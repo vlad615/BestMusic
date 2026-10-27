@@ -53,8 +53,6 @@ const authMiddleware: Middleware = {
     if (response.ok) return response
     if (!response.ok && response.status !== 401) {
       const errorBody = await response.json()
-      console.log(errorBody)
-
       throw errorBody
     }
 
