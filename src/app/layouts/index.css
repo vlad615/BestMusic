@@ -22,7 +22,7 @@
   --shadow-lg: var(--shadow-lg);
 }
 
-.dark {
+.light {
   --background: #fafafa;
   --background-menu: #f7f7fa;
   --surface: #ffffff;
@@ -41,7 +41,7 @@
   --shadow-lg: 0 8px 24px rgb(15 23 42 / 0.12);
 }
 
-:root {
+.dark {
   --background: #0f172a;
   --background-menu: #1d273f;
   --surface: #222f46;

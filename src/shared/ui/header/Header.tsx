@@ -3,9 +3,10 @@ import type { ReactNode } from 'react'
 
 type Props = {
   renderAccountBar: ReactNode
+  themeButton: ReactNode
 }
 
-export const Header = ({ renderAccountBar }: Props) => {
+export const Header = ({ renderAccountBar, themeButton }: Props) => {
   return (
     <header className="my-2">
       <div className="mx-auto flex max-w-7xl items-center justify-between rounded-md bg-background-menu px-2 py-2 text-text">
@@ -25,7 +26,10 @@ export const Header = ({ renderAccountBar }: Props) => {
           </Link>
         </nav>
 
-        <div>{renderAccountBar}</div>
+        <div className="flex items-center gap-2">
+          {themeButton}
+          {renderAccountBar}
+        </div>
       </div>
     </header>
   )

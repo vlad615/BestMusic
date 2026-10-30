@@ -5,6 +5,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { queryClient } from '../api/client.ts'
 import { routerInstance } from '../api/router-instance.ts'
+import { AppStore } from '../store/store.ts'
+
+AppStore.subscribe((state, previousState) => {
+  console.log('Theme:', previousState.theme, '→', state.theme)
+})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
