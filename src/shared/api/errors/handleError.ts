@@ -33,12 +33,10 @@ export const queryErrorHandlerForRHFFactory = <T extends FieldValues>({
 }
 
 export const mutationGlobalErrorHandler = (error: Error, _: unknown, __: unknown, mutation: unknown) => {
-  // @ts-expect-error look at MutationMeta type
-  if (mutation.meta.globalErrorHandler === 'off') {
-    return
-  }
+  // if (mutation.meta.globalErrorHandler === 'off') {
+  //   return
+  // }
 
-  console.error(isJsonApiErrorDocument(error))
   if (isJsonApiErrorDocument(error)) {
     const { globalErrors } = parseJsonApiErrors(error)
 

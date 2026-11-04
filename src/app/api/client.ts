@@ -21,7 +21,7 @@ export const queryClient = new QueryClient({
     onError: (error, query) => queryErrorHandler(error),
   }),
   mutationCache: new MutationCache({
-    onError: mutationGlobalErrorHandler,
+    onError: (error, mutation) => mutationGlobalErrorHandler(error, undefined, undefined, mutation),
   }),
   defaultOptions: {
     queries: {

@@ -1,5 +1,8 @@
 import type { SchemaPlaylistListItemResource } from '@/shared/api'
 import { DeletePlaylistBtn } from '@/features/playlists/delete-playlist/ui/DeletePlaylistBtn'
+import { MenuCard } from '@/entities/playlists'
+import { UploadCover } from '@/features/playlists/'
+import { useUploadCoverMutation } from '@/features/playlists/upload-cover/api/use-upload-cover-mutation'
 
 type Props = {
   playlist: SchemaPlaylistListItemResource
@@ -18,9 +21,19 @@ export const CardPlaylist = ({ playlist, onUpdate }: Props) => {
     if (onUpdate) onUpdate(playlist.id)
   }
 
+  const { mutate, isPending } = useUploadCoverMutation()
+
   return (
     <article className="relative overflow-hidden rounded-lg border border-border bg-surface shadow-sm">
-      {cover ? (
+      {isPending ? (
+        <div
+          className="flex aspect-square items-center justify-center bg-background-menu text-text-secondary"
+          role="status"
+          aria-label="Uploading cover"
+        >
+          <div className="size-8 animate-spin rounded-full border-4 border-current border-t-transparent" />
+        </div>
+      ) : cover ? (
         <img className="aspect-square w-full object-cover" src={cover.url} alt={`${title} cover`} loading="lazy" />
       ) : (
         <div className="flex aspect-square items-center justify-center bg-background-menu text-text-secondary">
@@ -32,22 +45,12 @@ export const CardPlaylist = ({ playlist, onUpdate }: Props) => {
       </h2>
 
       {onUpdate && (
-        <details className="absolute right-1 top-1 cursor-pointer ">
-          <summary
-            className="flex size-4 items-center justify-center rounded-full bg-background-menu/90 text-xl leading-none text-text shadow-sm hover:bg-surface focus-visible:outline-2 focus-visible:outline-primary [&::-webkit-details-marker]:hidden"
-            aria-label={`Options for ${title}`}
-            title="Playlist options">
-            ⋯
-          </summary>
-          <div className="absolute right-0 z-10 mt-0.5 rounded-md border border-border bg-background-menu shadow-md">
-            <DeletePlaylistBtn id={playlist.id} />
-            <button
-              className="whitespace-nowrap rounded px-1.5 py-0.5 text-sm text-red-500 hover:bg-surface focus-visible:outline-2 focus-visible:outline-primary disabled:cursor-not-allowed disabled:opacity-60"
-              onClick={handleUpdate}>
-              Update
-            </button>
-          </div>
-        </details>
+        <MenuCard
+          title={title}
+          DeletePlaylistBtn={<DeletePlaylistBtn id={playlist.id} />}
+          UploadCoverBtn={<UploadCover id={playlist.id} mutate={mutate} />}
+          handleUpdate={handleUpdate}
+        />
       )}
     </article>
   )
